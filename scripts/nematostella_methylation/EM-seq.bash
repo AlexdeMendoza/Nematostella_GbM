@@ -6,14 +6,6 @@ bs_seeker2-build.py -f Genome.fasta --aligner=bowtie2 -d /indexes
 
 ## Mapping and get CG rates
 
-# Fastq input
-readR1="$1"
-readR2="$2"
-
-# Set base name for output
-baseR1=$(basename "$readR1" .fq.gz) &&
-baseR2=$(basename "$readR2" .fq.gz) &&
-
 # Trim reads and QC report
 fastp -i read1.fastq.gz -o read1_trimmed.fastq.gz -I read2.fastq.gz -O read2_trimmed.fastq.gz \
 --html=read1_fastp_report.html &&
