@@ -1,4 +1,4 @@
-# Make plots of per-read methylation in Nv_Cr5_3_4mpf, NvIT16K4_sperm_Oct31 and Nv_Cr18
+# Make plots of per-read methylation in Nv_Cr5_3_4mpf, NvIT16K4_sperm_Oct31 and Nv_Cr18 (an untreated cross served as control)
 
 # Load required packages
 library(dplyr)
