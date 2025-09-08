@@ -1,4 +1,5 @@
 # Create a pedigree phased VCF for Nv_Cr5_3_4mpf based on which variants are homozygous in NvIT16K4_sperm_Oct31 but heterozygous in Nv_Cr5_3_4mpf
+# Nv_Cr5_3_4mpf is an individual offspring from the cross of a demethylated male and an untreated female; NvIT16K4_sperm_Oct31 is sperm from the demethylated male
 
 # Load required packages
 library(VariantAnnotation)
