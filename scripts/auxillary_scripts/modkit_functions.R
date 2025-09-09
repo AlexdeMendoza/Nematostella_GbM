@@ -194,3 +194,100 @@ summarize_mod_calls_per_read = function(mod_calls_table){
   return(setNames(data.frame(mod_calls_table_summary), names(mod_calls_table_summary)))
   
 }
+
+#' Summarize base modification calls across genomic regions
+#'
+#' @param modBAM Path to a modBAM file.
+#' @param reference_fasta Optional path to a FASTA file for the relevant reference genome for the modBAM file 
+#' for modkit to extract reference context information from.
+#' @param motif The sequence motif to summarize modifications at. Default is CG. Set to NULL to summarize modifications at all positions.
+#' @param motif_offset The 0-based offset in the motif for the base to summarize modifications at. Default is 0. 
+#' @param ignore_mod An optional modification to ignore.
+#' @param global_threshold The global filter threshold. Set to NULL (the default) to use the automatically calculated threshold. 
+#' @param mod_thresholds An optional named numeric vector with specific thresholds for different base modifications e.g.
+#' c(m = 0.75, h = 0.8).
+#' @param genomic_regions An optional GRanges object or a path to a BED file with regions to perform pileup for.
+#' @param combine_strands A logical value indicating whether to sum the counts from the positive and negative strands 
+#' into the counts for the positive strand position. Default value is TRUE.
+#' @param nthreads Number of threads to use with modkit pileup. Default is 4.
+#' @export
+pileup_modcalls = function(modBAM, reference_fasta, motif = "CG", motif_offset = 0, ignore_mod = NULL,
+  global_threshold = NULL, mod_thresholds = NULL, genomic_regions = NULL, combine_strands = TRUE, nthreads = 4){
+  
+  # Check that modkit is available
+  if(system("modkit --version", ignore.stdout = T, ignore.stderr = T) != 0){
+    stop("modkit does not seem to be available")
+  } 
+  
+  # Check that genomic_regions is a either GRanges object or a filepath if it is provided
+  if(!is(genomic_regions, "GRanges") & !is.null(genomic_regions)){
+    if(!is.character(genomic_regions) | length(genomic_regions) != 1 | !file.exists(as.character(genomic_regions))){
+      stop("genomic_regions should provide either a GRanges object or a filepath to a single BED file")
+    }
+  }
+  
+  # Export a temporary BED file with regions in genomic_regions
+  if(!is.null(genomic_regions)){
+    if(is(genomic_regions, "GRanges")){
+      S4Vectors::mcols(genomic_regions) = NULL
+      regions_bed = tempfile(pattern = "temp_bed_", fileext = ".bed")
+      rtracklayer::export.bed(genomic_regions, regions_bed)
+    } else {
+      regions_bed = genomic_regions
+    }
+    # Create part of the modkit command specifying BED regions to include if genomic_regions provided
+    bed_string = paste("--include-bed", regions_bed)
+  } else {
+    bed_string = ""
+  }
+  
+  # If motif is provided, create part of the modkit command specifying motif 
+  if(!is.null(motif)){
+    motif_string = paste("--motif", motif, motif_offset)
+  } else {
+    motif_string = ""
+  }
+  
+  # If combine_strands is set, update part of the modkit command
+  if(combine_strands){
+    combine_strands_string = "--combine-strands"
+  } else {
+    combine_strands_string = ""
+  }
+  
+  # If global_threshold is set, update part of the modkit command
+  if(!is.null(global_threshold)){
+    global_threshold_string = paste("--filter-threshold", global_threshold)
+  } else {
+    global_threshold_string = ""
+  }
+  
+  # If mod_thresholds is set, update part of the modkit command
+  if(!is.null(mod_thresholds)){
+    mod_threshold_string = paste("--mod-threshold", paste(names(mod_thresholds), mod_thresholds, sep = ":"), collapse = " ")
+  } else {
+    mod_threshold_string = ""
+  }
+  
+  # If ignore_mod is set, update part of the modkit command
+  if(!is.null(ignore_mod)){
+    ignore_mod_string = paste("--ignore", ignore_mod)
+  } else {
+    ignore_mod_string = ""
+  }
+  
+  # Create modkit command and run
+  temp_bedmethyl_file = tempfile()
+  modkit_command = paste("modkit pileup", "-t", nthreads, "-r", reference_fasta, 
+    motif_string, ignore_mod_string, combine_strands_string, global_threshold_string, mod_threshold_string, bed_string, 
+    "--with-header", modBAM, temp_bedmethyl_file)
+  system(modkit_command)
+  
+  # Read bedMethyl file and convert to a GRanges and return
+  bedmethyl_df = data.table::fread(temp_bedmethyl_file, data.table = F, nThread = nthreads)
+  bedmethyl_gr = GenomicRanges::makeGRangesFromDataFrame(bedmethyl_df, 
+    seqnames.field = "chrom", start.field = "chromStart", end.field = "chromEnd", 
+    starts.in.df.are.0based = T, keep.extra.columns = T)
+  return(bedmethyl_gr)
+  
+}

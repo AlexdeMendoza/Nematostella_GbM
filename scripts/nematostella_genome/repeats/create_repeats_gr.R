@@ -29,28 +29,7 @@ kimura_bed_gr = makeGRangesFromDataFrame(kimura_bed, keep.extra.columns = T)
 repeat_subclass_median_kimura_score = sapply(split(kimura_bed$score, kimura_bed$subclass), median)
 saveRDS(repeat_subclass_median_kimura_score, "repeat_subclass_median_kimura_score.rds")
 
-### Create a SAF files with repeat superfamily and family as features for use with featureCounts 
-
-mcols(nvec_repeats_gr) = data.frame(superfamily = nvec_repeats_gr$superfamily, family = nvec_repeats_gr$family)
-
-# Convert nvec_repeats_gr into a data.frame, put columns in correct order and rename them
-repeat_superfamily_df = dplyr::select(data.frame(nvec_repeats_gr), 
-  "Geneid" = superfamily, "Chr" = seqnames, "Start" = start, "End" = end, "Strand" = strand)
-data.table::fwrite(repeat_superfamily_df, "nvec_repeat_superfamilies.saf.gz", sep = "\t")
-
-repeat_family_df = dplyr::select(data.frame(nvec_repeats_gr), 
-  "Geneid" = family, "Chr" = seqnames, "Start" = start, "End" = end, "Strand" = strand)
-data.table::fwrite(repeat_family_df, "nvec_repeat_families.saf.gz", sep = "\t")
-
 ### Create a GRanges with complete genomic annotation for Nematostella
-
-# Create a GRanges for CpG islands. About 10% of promoters for protein-coding genes in Nematostella overlap CGIs
-cgis = data.table::fread("../nematostella_cgis.txt", select = 1:4, 
-  col.names =  c("seqnames", "start", "end", "cpg_count"))
-cgis_gr = makeGRangesFromDataFrame(cgis, starts.in.df.are.0based = F)
-cgis_gr$superclass = "CpG Island"
-cgis_gr$class = "CpG Island"
-cgis_gr$subclass = "CpG Island"
 
 # Load GRanges for repeats and use alt_name as transcript_id
 nvec_repeats_gr = readRDS("nvec_repeats_gr.rds")
@@ -93,7 +72,7 @@ promoters_exons_and_introns_gr$class =  ifelse(promoters_exons_and_introns_gr$re
 promoters_exons_and_introns_gr$subclass = promoters_exons_and_introns_gr$class
 
 # Combine nvec_repeats_gr and promoters_exons_and_introns_gr
-complete_annotation_gr = c(promoters_exons_and_introns_gr, cgis_gr, non_coding_regions_gr, nvec_repeats_gr)
+complete_annotation_gr = c(promoters_exons_and_introns_gr, non_coding_regions_gr, nvec_repeats_gr)
 
 # Select necessary metadata columns and remove unused levels from class
 mcols(complete_annotation_gr) = mcols(complete_annotation_gr)[c("superclass", "class", "subclass", "transcript_id")]

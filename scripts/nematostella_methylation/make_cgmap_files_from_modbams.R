@@ -1,8 +1,8 @@
 # Create CGmap files files from modBAM files
 
 # Load required packages
-library(nanometh)
 library(dplyr)
+source("../auxillary_scripts/modkit_functions.R")
 
 # Get paths to modBAM files
 modbams = gsub(" .*", "", readLines("nanopore_data.txt"))

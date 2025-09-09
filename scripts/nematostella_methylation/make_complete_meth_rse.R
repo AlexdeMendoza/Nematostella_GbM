@@ -45,7 +45,7 @@ filter_nc = function(cgmap_file){
   nc_file = gsub(".CGmap.gz", "_nc_contigs.CGmap.gz", cgmap_file)
   system(paste("zcat", cgmap_file, "| grep NC_ | gzip >", nc_file ))
 }
-#system.time({parallelR::parallelize(object = c(cgmap_files_emseq, cgmap_files_nanopore), ncores = 9, filter_nc)})
+lapply(c(cgmap_files_emseq, cgmap_files_nanopore), filter_nc)
 
 # Get paths to EMseq files for NC contigs and name them
 cgmap_files_emseq_nc = list.files("cgmap_files/cgmap_files_emseq", full.names = T, pattern = "nc_contigs")

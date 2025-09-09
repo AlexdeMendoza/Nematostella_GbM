@@ -17,10 +17,9 @@ names(gene_gr) = gene_gr$gene
 # Remove transcript_id and product metadata columns
 mcols(gene_gr)[c("transcript_id", "product")] = NULL
 
-# Subset for protein-coding genes and save and export as a BED file
+# Subset for protein-coding genes and save
 protein_gene_gr = gene_gr[gene_gr$gene_biotype == "protein_coding"]
 saveRDS(protein_gene_gr, "nvec_pc_genes_gr.rds")
-rtracklayer::export.bed(protein_gene_gr, "nvec_pc_genes.bed")
 
 # Make GRanges object for transcripts. Note that transcript_id and not ID should be used to name transcripts
 transcripts_gr = nvec_gff_gr[nvec_gff_gr$type %in% c("mRNA", "transcript")]
@@ -104,7 +103,7 @@ promoters_exons_and_introns_gr = makeGRangesFromDataFrame(promoters_exons_and_in
 names(promoters_exons_and_introns_gr) = paste(promoters_exons_and_introns_gr$transcript_id, promoters_exons_and_introns_gr$region, promoters_exons_and_introns_gr$rank, sep = "_")
 saveRDS(promoters_exons_and_introns_gr, "nvec_pc_transcripts_promoters_exons_and_introns_gr.rds")
 
-### Create a GRanges with the promoter, exons and introns for the longestg transcript for each gene
+### Create a GRanges with the promoter, exons and introns for the longest transcript for each gene
 
 # Convert pc_transcripts_gr into a data.frame and group by gene
 pc_transcripts_df = group_by(data.frame(pc_transcripts_gr), gene)
@@ -112,10 +111,6 @@ pc_transcripts_df = group_by(data.frame(pc_transcripts_gr), gene)
 # Find the longest transcript for each gene, selecting the first transcript by alphabetical order for ties
 pc_transcripts_df = filter(pc_transcripts_df, width == max(width))
 longest_transcripts = filter(pc_transcripts_df, transcript_id == min(transcript_id))$transcript_id
-
-# Filter promoters_exons_and_introns_gr for the longest transcript for each gene
-longest_transcripts_promoters_exons_and_introns_gr = promoters_exons_and_introns_gr[promoters_exons_and_introns_gr$transcript_id %in% longest_transcripts]
-saveRDS(longest_transcripts_promoters_exons_and_introns_gr, "longest_transcripts_promoters_exons_and_introns_gr.rds")
 
 ### Create GRanges objects for other types of regions besides genes
 
@@ -132,14 +127,3 @@ non_coding_regions_gr$gene_biotype = NULL
 # Sort regions and save
 non_coding_regions_gr = sort(non_coding_regions_gr)
 saveRDS(non_coding_regions_gr, "nvec_non_coding_regions_gr.rds")
-
-### Create an SAF file with genes as features for use with featureCounts with the exons from GCF_932526225.1_jaNemVect1.1_genomic.gff.gz
-
-# Make GRanges object for exons and remove all metadata columns except gene
-exons_gr = nvec_gff_gr[nvec_gff_gr$type == "exon"]
-mcols(exons_gr) = data.frame("gene" = exons_gr$gene)
-
-# Convert exons_gr into a data.frame, put columns in correct order and rename them
-genes_saf_df = dplyr::select(data.frame(exons_gr), 
-  "Geneid" = gene, "Chr" = seqnames, "Start" = start, "End" = end, "Strand" = strand)
-data.table::fwrite(genes_saf_df, "nvec_genes.saf.gz", sep = "\t")

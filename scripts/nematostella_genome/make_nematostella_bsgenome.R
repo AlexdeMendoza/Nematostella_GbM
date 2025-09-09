@@ -1,7 +1,8 @@
-# Create a BSgenome object from Nematostella_DToL_lambda_pUC_mitochondria_originalIDs.fasta and create a 
-# GRanges object with all CpG sites and create a Kallisto index from the transcripts FASTA file
+# Create a BSgenome object from Nematostella_DToL_lambda_pUC_mitochondria_originalIDs.fasta and
+# create a Kallisto index from the transcripts FASTA file
 
 # Load required packages
+library(methodical)
 library(Biostrings)
 
 # Read in Nematostella_DToL_lambda_pUC_mitochondria_originalIDs.fasta and shorten chromosome names to just the sequence name
@@ -15,13 +16,7 @@ system("~/programs/seqkit split -i Nematostella_DToL_lambda_pUC_mitochondria_ori
 system.time({BSgenome::forgeBSgenomeDataPkg(x = "nematostella_bsgenome_seed.txt", 
   seqs_srcdir = "nematostella_fastas", destdir = ".")})
 
-# Extract CpG sites from the Nematostella genome as a GRanges object and save
-system.time({nvec_cpgs_gr = methodical::extractMethSitesFromGenome("BSgenome.Nvectensis.NCBI.jaNemVect1.1.lambda.pUC19", 
-  pattern = "CG", standard_sequences_only = F)})
-saveRDS(nvec_cpgs_gr, "nvec_cpgs_gr.rds")
-
 # Create a Kallisto index from GCF_932526225.1_jaNemVect1.1_rna.fna.gz. Took 2 minutes
 system.time({methodical::kallistoIndex(path_to_kallisto = "~/programs/kallisto/kallisto",  
   transcripts_fasta = "GCF_932526225.1_jaNemVect1.1_rna.fna.gz", 
   index_name = "GCF_932526225.1_jaNemVect1.1_rna_kallisto.idx")})
-
