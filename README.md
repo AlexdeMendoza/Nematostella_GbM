@@ -1,6 +1,6 @@
 # Nematostella GbM
 
-Code associated to manuscript about Gene Body Methylation in *Nematostella vectensis*. If you use this code and/or data, please refere to: 
+Code associated to manuscript about Gene Body Methylation in *Nematostella vectensis*. If you use this code and/or data, please cite: 
 
 Xu L, Heery R, Baranasic B, Žunar B, Segura Campaña A, Ovchinnikov V, Lenhard B, de Mendoza A. *The role and inheritance of gene body methylation in an invertebrate*. 
 
