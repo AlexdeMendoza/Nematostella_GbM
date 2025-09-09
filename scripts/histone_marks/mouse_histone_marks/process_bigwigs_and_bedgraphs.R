@@ -2,7 +2,7 @@
 
 # Load required packages
 library(rtracklayer)
-library(plotR)
+source("../auxillary_scripts/plotting_functions.R")
 
 ### Process WGBS bigWig files
 
@@ -73,7 +73,7 @@ gene_wgbs_and_h3k79_values = cbind(gene_wgbs_values, gene_h3k79_values_normalize
 # Calculate correlations between features
 gene_wgbs_and_h3k79_cors = cor(gene_wgbs_and_h3k79_values, method = "s")
 
-gene_wgbs_and_h3k79_cor_heatmap = plotR::heatmap_without_clustering(gene_wgbs_and_h3k79_cors, number_size = 10, label_size = 10)
+gene_wgbs_and_h3k79_cor_heatmap = heatmap_without_clustering(gene_wgbs_and_h3k79_cors, number_size = 10, label_size = 10)
 gene_wgbs_and_h3k79_cor_heatmap
 ggsave(plot = gene_wgbs_and_h3k79_cor_heatmap, "mouse_gene_wgbs_and_h3k79_cor_heatmap.pdf", width = 9, height = 9)
 

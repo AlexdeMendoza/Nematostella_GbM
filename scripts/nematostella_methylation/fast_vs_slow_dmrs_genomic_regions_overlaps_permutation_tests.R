@@ -3,7 +3,7 @@
 # Load required packages
 library(GenomicRanges)
 library(dplyr)
-library(plotR)
+source("../auxillary_scripts/plotting_functions.R")
 library(doParallel)
 
 # Load DMSO DMRs
@@ -83,7 +83,7 @@ fast_vs_slow_dmr_proportions_superclass = data.table::fread("fast_vs_slow_dmr_pr
 
 # Correct p-values and add significance symbol
 fast_vs_slow_dmr_proportions_superclass$q_value = p.adjust(fast_vs_slow_dmr_proportions_superclass$p_value, method = "BH")
-fast_vs_slow_dmr_proportions_superclass$significance = plotR::sig_sym(fast_vs_slow_dmr_proportions_superclass$q_value)
+fast_vs_slow_dmr_proportions_superclass$significance = sig_sym(fast_vs_slow_dmr_proportions_superclass$q_value)
 fast_vs_slow_dmr_proportions_superclass$significance_position = pmax(fast_vs_slow_dmr_proportions_superclass$slow_dmr, fast_vs_slow_dmr_proportions_superclass$fast_dmr) + 0.02
 
 # Sort regions by those with the most significant difference
@@ -135,7 +135,7 @@ fast_vs_slow_dmr_proportions_class = data.table::fread("fast_vs_slow_dmr_proport
 
 # Correct p-values and add significance symbol
 fast_vs_slow_dmr_proportions_class$q_value = p.adjust(fast_vs_slow_dmr_proportions_class$p_value, method = "BH")
-fast_vs_slow_dmr_proportions_class$significance = plotR::sig_sym(fast_vs_slow_dmr_proportions_class$q_value)
+fast_vs_slow_dmr_proportions_class$significance = sig_sym(fast_vs_slow_dmr_proportions_class$q_value)
 fast_vs_slow_dmr_proportions_class$significance_position = pmax(fast_vs_slow_dmr_proportions_class$slow_dmr, fast_vs_slow_dmr_proportions_class$fast_dmr) + 0.02
 
 # Sort regions by those with the most significant difference
@@ -201,7 +201,7 @@ fast_vs_slow_dmr_repeat_subfamily_proportions = data.table::fread("fast_vs_slow_
 
 # Correct p-values and add significance symbol
 fast_vs_slow_dmr_repeat_subfamily_proportions$q_value = p.adjust(fast_vs_slow_dmr_repeat_subfamily_proportions$p_value, method = "BH")
-fast_vs_slow_dmr_repeat_subfamily_proportions$significance = plotR::sig_sym(fast_vs_slow_dmr_repeat_subfamily_proportions$q_value)
+fast_vs_slow_dmr_repeat_subfamily_proportions$significance = sig_sym(fast_vs_slow_dmr_repeat_subfamily_proportions$q_value)
 fast_vs_slow_dmr_repeat_subfamily_proportions$significance_position = pmax(fast_vs_slow_dmr_repeat_subfamily_proportions$slow_dmr, fast_vs_slow_dmr_repeat_subfamily_proportions$fast_dmr) + 0.0005
 
 # Sort repeats by those with the most significant difference

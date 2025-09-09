@@ -3,7 +3,7 @@
 # Load required packages
 library(dplyr)
 library(DESeq2)
-library(plotR)
+source("../auxillary_scripts/plotting_functions.R")
 library(pheatmap)
 
 # Load a list matching genes to transcripts
@@ -138,7 +138,7 @@ gastrula_boxplots = customize_ggplot_theme(gastrula_boxplots,
   title = "Impact of DNMT1 Inhibition on Transcription in Gastrula", xlab = "Timepoint", ylab = "Max Normalized\nDESeq2 Counts", 
   fill_labels = c("DMSO", "GSK", "GSK F1", "Morpholino F1"), 
   plot_title_size = 30, axis_title_size = 24, legend_key_size = 2, legend_text_size = 24,
-  facet = "gene_class", x_labels_angle = 45, facet_nrow = 3, fill_colors = plotR::colour_list$rainbox_six[c(6, 4, 1, 2)],
+  facet = "gene_class", x_labels_angle = 45, facet_nrow = 3, fill_colors = colour_list$rainbox_six[c(6, 4, 1, 2)],
   facet_labels = c("Upregulated Methylated", "Upregulated Unmethylated",
   "Downregulated Methylated", "Downregulated Unmethylated",
   "Unchanged Methylated", "Unchanged Unmethylated")) +
@@ -152,7 +152,7 @@ heatmap_df = heatmap_df[complete.cases(heatmap_df), ]
 annotation = data.frame(tibble::column_to_rownames(unique(select(nvec_gene_counts_normalized_long_gastrula, timepoint, status)), "timepoint"))
 names(annotation) = "Status"
 annotation$Status[annotation$Status == "Gastrula"] = "External"
-annotation_colors = list(Status = setNames(plotR::colour_list$rainbox_six[c(6, 5, 4, 1, 2)], sort(unique(annotation$Status))))
+annotation_colors = list(Status = setNames(colour_list$rainbox_six[c(6, 5, 4, 1, 2)], sort(unique(annotation$Status))))
 set.seed(123)
 pheatmap(heatmap_df, kmeans_k = 100, show_rownames = F, clustering_method = "ward.D", 
   treeheight_row = 0, annotation_col = annotation, annotation_names_col = F, 
@@ -164,7 +164,7 @@ pheatmap(heatmap_df, kmeans_k = 100, show_rownames = F, clustering_method = "war
 nvec_gene_counts_normalized_boxplots = ggplot(nvec_gene_counts_normalized_long, mapping = aes(x = timepoint, y = normalized_expression, fill = status)) + 
   geom_boxplot()
 nvec_gene_counts_normalized_boxplots = customize_ggplot_theme(nvec_gene_counts_normalized_boxplots, xlab = "Timepoint", ylab = "Max Normalized\nDESeq2 Counts", 
-  facet = "gene_class", x_labels_angle = 45, facet_nrow = 3, fill_colors = plotR::colour_list$rainbox_six[c(6, 5, 4, 1, 2)],
+  facet = "gene_class", x_labels_angle = 45, facet_nrow = 3, fill_colors = colour_list$rainbox_six[c(6, 5, 4, 1, 2)],
   facet_labels = c("Upregulated Methylated", "Upregulated Unmethylated",
   "Downregulated Methylated", "Downregulated Unmethylated",
   "Unchanged Methylated", "Unchanged Unmethylated")) +
@@ -173,7 +173,7 @@ nvec_gene_counts_normalized_boxplots
 ggsave(plot = nvec_gene_counts_normalized_boxplots, "plots/deseq2_counts_timepoint_nvec_gene_counts_normalized_boxplots_with_crossings.pdf", width = 32, height = 18)
 
 # Make a correlation heatmap of our samples
-plotR::heatmap_without_clustering(cor(select(nvec_gene_counts_normalized, starts_with("N")), use = "c"), 
+heatmap_without_clustering(cor(select(nvec_gene_counts_normalized, starts_with("N")), use = "c"), 
   filename = "plots/gsk_dmso_samples_transcript_cor_heatmap.pdf", file_dimensions = c(16, 16))
 
 # Make a dendogram of our samples

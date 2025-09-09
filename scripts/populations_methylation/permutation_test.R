@@ -4,7 +4,7 @@
 library(dplyr)
 library(BSgenome.Nvectensis.NCBI.jaNemVect1.1.lambda.pUC19)
 library(regioneR)
-library(plotR)
+source("../auxillary_scripts/plotting_functions.R")
 
 # Load population DMRs
 population_dmrs_reduced = readRDS("population_dmrs_reduced.rds")
@@ -91,7 +91,7 @@ set.seed(123)
 system.time({population_dmr_region_superclass_enrichment = 
   dmr_overlap_permutation_test(dmrs = population_dmrs_reduced, regions_grl = complete_annotation_grl_superclass, n = 3000)})
 population_dmr_region_superclass_enrichment$q_value = p.adjust(population_dmr_region_superclass_enrichment$p_value, method = "fdr")
-population_dmr_region_superclass_enrichment$significance = plotR::sig_sym(population_dmr_region_superclass_enrichment$q_value)
+population_dmr_region_superclass_enrichment$significance = sig_sym(population_dmr_region_superclass_enrichment$q_value)
 
 # Sort regions by those with the most significant difference
 population_dmr_region_superclass_enrichment = arrange(population_dmr_region_superclass_enrichment, q_value)
@@ -114,7 +114,7 @@ set.seed(123)
 system.time({population_dmr_region_class_enrichment = 
   dmr_overlap_permutation_test(dmrs = population_dmrs_reduced, regions_grl = complete_annotation_grl_class, n = 3000)})
 population_dmr_region_class_enrichment$q_value = p.adjust(population_dmr_region_class_enrichment$p_value, method = "fdr")
-population_dmr_region_class_enrichment$significance = plotR::sig_sym(population_dmr_region_class_enrichment$q_value)
+population_dmr_region_class_enrichment$significance = sig_sym(population_dmr_region_class_enrichment$q_value)
 
 # Sort regions by those with the most significant difference
 population_dmr_region_class_enrichment = arrange(population_dmr_region_class_enrichment, q_value)
@@ -137,7 +137,7 @@ set.seed(123)
 system.time({population_dmr_region_subclass_enrichment = 
   dmr_overlap_permutation_test(dmrs = population_dmrs_reduced, regions_grl = complete_annotation_grl_subclass, n = 1000)})
 population_dmr_region_subclass_enrichment$q_value = p.adjust(population_dmr_region_subclass_enrichment$p_value, method = "fdr")
-population_dmr_region_subclass_enrichment$significance = plotR::sig_sym(population_dmr_region_subclass_enrichment$q_value)
+population_dmr_region_subclass_enrichment$significance = sig_sym(population_dmr_region_subclass_enrichment$q_value)
 
 # Sort regions by those with the most significant difference
 population_dmr_region_subclass_enrichment_sig = filter(arrange(population_dmr_region_subclass_enrichment, q_value), q_value < 0.2)

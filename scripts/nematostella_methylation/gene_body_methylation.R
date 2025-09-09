@@ -3,7 +3,7 @@
 # Load required packages
 library(methodical)
 library(dplyr)
-library(plotR)
+source("../auxillary_scripts/plotting_functions.R")
 
 # Load methrix for Nematostella and convert to a meth RSE
 nvec_meth_rse = HDF5Array::loadHDF5SummarizedExperiment("nematostella_complete_meth_rse/")

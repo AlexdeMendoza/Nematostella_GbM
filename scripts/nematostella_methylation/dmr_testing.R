@@ -6,7 +6,7 @@ library(methodical)
 library(ComplexHeatmap)
 library(dplyr)
 library(DESeq2)
-library(plotR)
+source("../auxillary_scripts/plotting_functions.R")
 source("../auxillary_scripts/granges_functions.R")
 source("../auxillary_scripts/bigwig_summarize_over_regions.R")
 
@@ -201,7 +201,7 @@ wilcoxon_test_results = lapply(histone_marks, function(x)
 # Convert results to a data.frame and correct p-values
 wilcoxon_test_results = bind_rows(setNames(wilcoxon_test_results, histone_marks), .id = "histone_mark")
 wilcoxon_test_results$q_value = p.adjust(wilcoxon_test_results$p_value, method = "BH")
-wilcoxon_test_results$significance = plotR::sig_sym(wilcoxon_test_results$q_value)
+wilcoxon_test_results$significance = sig_sym(wilcoxon_test_results$q_value)
 
 # Convert table to long format
 dmso_dmr_histone_values_long = tidyr::pivot_longer(dmso_dmr_histone_values, -dmr_status, names_to = "histone_mark")
@@ -1153,7 +1153,7 @@ NvIT16K4_sperm_Oct31_dmrs_increase_meth_imputed = impute::impute.knn(as.matrix(N
 NvIT16K4_sperm_Oct31_dmrs_increase = NvIT16K4_sperm_Oct31_dmrs_increase[names(which(rowMeans(NvIT16K4_sperm_Oct31_dmrs_increase_meth[, dmso_f0_samples], na.rm = T) < 0.1))]
 NvIT16K4_sperm_Oct31_dmrs_increase = NvIT16K4_sperm_Oct31_dmrs_increase[NvIT16K4_sperm_Oct31_dmrs_increase$nCG >= 10]
 
-plotR::heatmap_without_clustering(as.matrix(NvIT16K4_sperm_Oct31_dmrs_increase_meth[, timepoint_samples]), mask_diagonal = F)
+heatmap_without_clustering(as.matrix(NvIT16K4_sperm_Oct31_dmrs_increase_meth[, timepoint_samples]), mask_diagonal = F)
 
 Heatmap(matrix = as.matrix(NvIT16K4_sperm_Oct31_dmrs_increase_meth_imputed[, ]), col = c("#4B878BFF", "white", "#D01C1FFF"), border = T,
   column_title = "Clustering of Population DMRs", column_title_gp = gpar(fontsize = 20, fontface = "bold"), 

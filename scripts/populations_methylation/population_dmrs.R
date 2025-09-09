@@ -200,7 +200,7 @@ mood_test_results = lapply(histone_marks, function(x)
 # Convert results to a data.frame and correct p-values
 mood_test_results = bind_rows(setNames(mood_test_results, histone_marks), .id = "histone_mark")
 mood_test_results$q_value = p.adjust(mood_test_results$p_value, method = "BH")
-mood_test_results$significance = plotR::sig_sym(mood_test_results$q_value)
+mood_test_results$significance = sig_sym(mood_test_results$q_value)
 
 # Convert table to long format
 slow_dmr_histone_values_long = tidyr::pivot_longer(slow_dmr_histone_values, -dmr_status, names_to = "histone_mark")
@@ -286,4 +286,4 @@ system.time({Heatmap(matrix = as.matrix(population_dmrs_meth_timepoints_imputed[
   cluster_columns = F, column_names_rot = 0, column_names_centered = T, column_names_gp = gpar(fontsize = 10), 
   name = "DMR\nMethylation", heatmap_legend_param = list(title_gp = gpar(fontsize = 16), labels_gp = gpar(fontsize = 14), legend_height = unit(6, "cm")))})
 
-plotR::heatmap_without_clustering(as.matrix(population_dmrs_meth_timepoints_imputed[methylation_gain_regions, timepoint_samples]), mask_diagonal = F)
+heatmap_without_clustering(as.matrix(population_dmrs_meth_timepoints_imputed[methylation_gain_regions, timepoint_samples]), mask_diagonal = F)

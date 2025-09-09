@@ -3,7 +3,7 @@
 # Load required packages
 library(dplyr)
 library(methodical)
-library(plotR)
+source("../auxillary_scripts/plotting_functions.R")
 source("../auxillary_scripts/bigwig_summarize_over_regions.R")
 
 # Load DMRs

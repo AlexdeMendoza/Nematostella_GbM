@@ -3,7 +3,7 @@
 # Load required packages
 library(methodical)
 library(dplyr)
-library(plotR)
+source("../auxillary_scripts/plotting_functions.R")
 
 # Load nematostella_complete_meth_rse and filter for DMSO and GSK treated samples
 nematostella_complete_meth_rse = HDF5Array::loadHDF5SummarizedExperiment("nematostella_complete_meth_rse")

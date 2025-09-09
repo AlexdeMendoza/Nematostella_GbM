@@ -3,7 +3,7 @@
 # Load required packages
 library(dplyr)
 library(GenomicRanges)
-#library(plotR)
+#source("../auxillary_scripts/plotting_functions.R")
 source("../../auxillary_scripts/modkit_functions.R")
 source("../../auxillary_scripts/alignments_functions.R")
 source("../../auxillary_scripts/methylartist_functions.R")

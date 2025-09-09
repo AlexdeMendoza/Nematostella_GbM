@@ -3,7 +3,7 @@
 # Load required packages
 library(GenomicRanges)
 library(dplyr)
-library(plotR)
+source("../auxillary_scripts/plotting_functions.R")
 
 # Split dmso_gr into slow and fast recovery DMRs
 dmso_dmrs = readRDS("dmso_dmrs.rds")
@@ -32,7 +32,7 @@ fast_vs_slow_dmr_proportions_superclass = data.frame(
 
 # Correct p-values and add significance symbol
 fast_vs_slow_dmr_proportions_superclass$q_value = p.adjust(fast_vs_slow_dmr_proportions_superclass$p_value, method = "BH")
-fast_vs_slow_dmr_proportions_superclass$significance = plotR::sig_sym(fast_vs_slow_dmr_proportions_superclass$q_value)
+fast_vs_slow_dmr_proportions_superclass$significance = sig_sym(fast_vs_slow_dmr_proportions_superclass$q_value)
 fast_vs_slow_dmr_proportions_superclass$significance_position = pmax(fast_vs_slow_dmr_proportions_superclass$slow_dmr, fast_vs_slow_dmr_proportions_superclass$fast_dmr) + 0.02
 
 # Sort regions by those with the most significant difference
@@ -84,7 +84,7 @@ fast_vs_slow_dmr_proportions_class = data.frame(
 
 # Correct p-values and add significance symbol
 fast_vs_slow_dmr_proportions_class$q_value = p.adjust(fast_vs_slow_dmr_proportions_class$p_value, method = "BH")
-fast_vs_slow_dmr_proportions_class$significance = plotR::sig_sym(fast_vs_slow_dmr_proportions_class$q_value)
+fast_vs_slow_dmr_proportions_class$significance = sig_sym(fast_vs_slow_dmr_proportions_class$q_value)
 fast_vs_slow_dmr_proportions_class$significance_position = pmax(fast_vs_slow_dmr_proportions_class$slow_dmr, fast_vs_slow_dmr_proportions_class$fast_dmr) + 0.02
 
 # Filter for significant regions and sort regions by those with the most significant difference
@@ -143,7 +143,7 @@ fast_vs_slow_dmr_proportions_subclass = data.frame(
 
 # Correct p-values and add significance symbol
 fast_vs_slow_dmr_proportions_subclass$q_value = p.adjust(fast_vs_slow_dmr_proportions_subclass$p_value, method = "BH")
-fast_vs_slow_dmr_proportions_subclass$significance = plotR::sig_sym(fast_vs_slow_dmr_proportions_subclass$q_value)
+fast_vs_slow_dmr_proportions_subclass$significance = sig_sym(fast_vs_slow_dmr_proportions_subclass$q_value)
 fast_vs_slow_dmr_proportions_subclass$significance_position = pmax(fast_vs_slow_dmr_proportions_subclass$slow_dmr, fast_vs_slow_dmr_proportions_subclass$fast_dmr) + 0.005
 
 # Sort regions by those with the biggest overlap with fast DMRs
