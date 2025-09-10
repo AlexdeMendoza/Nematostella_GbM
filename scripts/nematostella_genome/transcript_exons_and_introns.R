@@ -4,7 +4,8 @@
 library(GenomicFeatures)
 library(dplyr)
 
-# Read in GCF_932526225.1_jaNemVect1.1_genomic.gff.gz.gz as a GRanges 
+# Read in GCF_932526225.1_jaNemVect1.1_genomic.gff.gz.gz as a GRanges.
+# GCF_932526225.1_jaNemVect1.1_genomic.gff.gz downloaded from https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/932/526/225/GCF_932526225.1_jaNemVect1.1/GCF_932526225.1_jaNemVect1.1_rna.fna.gz
 system.time({nvec_gff_gr = rtracklayer::import.gff3("GCF_932526225.1_jaNemVect1.1_genomic.gff.gz")})
 
 # Drop unnecessary metadata columns 

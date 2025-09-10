@@ -16,7 +16,8 @@ system("~/programs/seqkit split -i Nematostella_DToL_lambda_pUC_mitochondria_ori
 system.time({BSgenome::forgeBSgenomeDataPkg(x = "nematostella_bsgenome_seed.txt", 
   seqs_srcdir = "nematostella_fastas", destdir = ".")})
 
-# Create a Kallisto index from GCF_932526225.1_jaNemVect1.1_rna.fna.gz. Took 2 minutes
+# Create a Kallisto index from GCF_932526225.1_jaNemVect1.1_rna.fna.gz. 
+# GCF_932526225.1_jaNemVect1.1_rna.fna.gz downloaded from https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/932/526/225/GCF_932526225.1_jaNemVect1.1/GCF_932526225.1_jaNemVect1.1_rna.fna.gz
 system.time({methodical::kallistoIndex(path_to_kallisto = "~/programs/kallisto/kallisto",  
   transcripts_fasta = "GCF_932526225.1_jaNemVect1.1_rna.fna.gz", 
   index_name = "GCF_932526225.1_jaNemVect1.1_rna_kallisto.idx")})
