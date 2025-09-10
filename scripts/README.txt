@@ -1,3 +1,4 @@
+ATAC-seq = Scripts used for mapping raw ATAC-seq reads and peak calling
 auxillary_scripts = Scripts with function definitions used throughout the project
 nematostella_genome = Scripts to create files related to Nematostella genome annotation
 nematostella_methylation = Scripts to identify DMRs, distinguish methylated and unmethylated genes and perform per-read methylation analyses
