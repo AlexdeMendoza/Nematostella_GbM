@@ -3,8 +3,9 @@
 # Load required packages
 library(dplyr)
 library(doParallel)
-library(RNATools)
 library(DESeq2)
+library(methodical)
+source("../auxillary_scripts/alignments_functions.R")
 
 # Make a cluster
 cl = makeCluster(6)
@@ -44,8 +45,8 @@ gsk_reverse_fastqs = grep("r2", gsk_fastq_files, value = T)
 sample_names = gsub("_RNAseq", "", gsub("\\..*", "", basename(gsk_forward_fastqs)))
 
 # Quantify transcripts with Kallisto. Took 11 minutes
-system.time(kallisto_quantify(path_to_kallisto = "~/programs/kallisto/kallisto", 
-  kallisto_index = "~/genomes/nematostella/GCF__932526225.1_jaNemVect1.1_rna.kallisto.idx", 
+system.time(methodical::kallisto_quantify(path_to_kallisto = "~/programs/kallisto/kallisto", 
+  kallisto_index = "../nematostella_genome/GCF__932526225.1_jaNemVect1.1_rna.kallisto.idx", 
   forward_fastqs = gsk_forward_fastqs, reverse_fastqs = gsk_reverse_fastqs, 
   sample_names = sample_names, 
   output_directory = "rnaseq_june_2024/kallisto_quantification", n_cores = 30))
@@ -84,8 +85,8 @@ reverse_fastqs = grep("\\.r2", combined_fastq_files, value = T)
 sample_names = gsub("_RNAseq", "", gsub("\\..*", "", basename(forward_fastqs)))
 
 # Quantify transcripts with Kallisto. Took 8 minutes with 30 cores
-system.time(kallisto_quantify(path_to_kallisto = "~/programs/kallisto/kallisto", 
-  kallisto_index = "~/genomes/nematostella/GCF_932526225.1_jaNemVect1.1_rna_kallisto.idx", 
+system.time(methodical::kallisto_quantify(path_to_kallisto = "~/programs/kallisto/kallisto", 
+  kallisto_index = "../nematostella_genome/GCF_932526225.1_jaNemVect1.1_rna_kallisto.idx", 
   forward_fastqs = forward_fastqs, reverse_fastqs = reverse_fastqs, 
   sample_names = sample_names, 
   output_directory = "rnaseq_march_2025/kallisto_quantification", n_cores = 30))
@@ -158,8 +159,8 @@ fastq_files = c(list.files("PRJNA189768_fastq_files", full.names = T),
 names(fastq_files) = gsub(".fastq.gz", "", basename(fastq_files))
 
 # Quantify transcripts with Kallisto. Took 40 minutes
-system.time(kallisto_quantify(path_to_kallisto = "~/programs/kallisto/kallisto", 
-  kallisto_index = "~/genomes/nematostella/GCF__932526225.1_jaNemVect1.1_rna.kallisto.idx", 
+system.time(methodical::kallisto_quantify(path_to_kallisto = "~/programs/kallisto/kallisto", 
+  kallisto_index = "../nematostella_genome/GCF__932526225.1_jaNemVect1.1_rna.kallisto.idx", 
   forward_fastqs = fastq_files, reverse_fastqs = NULL, 
   sample_names = accession_to_sample_name_dict[names(fastq_files)], 
   output_directory = "external_rnaseq_kallisto_quantification", n_cores = 30, messages_file = "", number_bootstraps = 100))
@@ -178,7 +179,7 @@ combined_timepoint_counts = data.frame(lapply(sample_timepoints_list, function(x
   round(rowMeans(external_transcript_counts[, x]))))
 
 # Load a list matching genes to transcripts
-genes_to_transcript_list = readRDS("~/genomes/nematostella/genes_to_transcript_list.rds")
+genes_to_transcript_list = readRDS("../nematostella_genome/genes_to_transcript_list.rds")
 
 # Combine transcript counts for genes
 system.time({combined_timepoint_gene_counts = methodical::sumTranscriptValuesForGenes(combined_timepoint_counts, genes_to_transcript_list)})
@@ -250,4 +251,3 @@ deseq_results_gsk_vs_dmso = data.frame(results(nvec_gene_counts_dds, contrast = 
 deseq_results_gsk_vs_dmso_sig = filter(deseq_results_gsk_vs_dmso, padj < 0.05)
 data.table::fwrite(tibble::rownames_to_column(deseq_results_gsk_vs_dmso_sig, "gene_id"),
   "deseq_gsk_vs_dmso_significant_results.tsv.gz", sep = "\t")
-# 

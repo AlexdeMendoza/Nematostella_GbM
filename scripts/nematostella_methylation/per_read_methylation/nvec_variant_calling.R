@@ -73,14 +73,3 @@ variant_exon_overlaps_gr$call_quality = Nv_Cr5_3_4mpf_filtered_gr$QUAL[variant_e
 variant_exon_overlaps_gr = sort(variant_exon_overlaps_gr)
 saveRDS(variant_exon_overlaps_gr, "variant_exon_overlaps_gr.rds")
 variant_exon_overlaps_gr =  readRDS("variant_exon_overlaps_gr.rds")
-
-###
-
-dmso_dmrs = readRDS("../dmso_dmrs.rds")
-fast_dmrs = dmso_dmrs[dmso_dmrs$dmr_status == "Fast"]
-slow_dmrs = dmso_dmrs[dmso_dmrs$dmr_status == "Slow"]
-
-length(intersect(subsetByOverlaps(nvec_transcript_gr, slow_dmrs)$transcript_id, variant_exon_overlaps_gr$transcript))
-length(intersect(subsetByOverlaps(nvec_transcript_gr, slow_dmrs)$gene, variant_exon_overlaps_gr$gene))
-length(intersect(subsetByOverlaps(nvec_transcript_gr, fast_dmrs)$transcript_id, variant_exon_overlaps_gr$transcript))
-length(intersect(subsetByOverlaps(nvec_transcript_gr, fast_dmrs)$gene, variant_exon_overlaps_gr$gene))

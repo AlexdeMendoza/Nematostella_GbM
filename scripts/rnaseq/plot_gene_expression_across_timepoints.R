@@ -3,8 +3,8 @@
 # Load required packages
 library(dplyr)
 library(DESeq2)
-source("../auxillary_scripts/plotting_functions.R")
 library(pheatmap)
+source("../auxillary_scripts/plotting_functions.R")
 
 # Load a list matching genes to transcripts
 genes_to_transcript_list = readRDS("../nematostella_genome/genes_to_transcript_list.rds")

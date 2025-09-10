@@ -24,7 +24,7 @@ filter_nc = function(cgmap_file){
   nc_file = gsub(".CGmap_corrected.gz", "_nc_contigs.CGmap_corrected.gz", cgmap_file)
   system(paste("zcat", cgmap_file, "| grep NC_ | gzip >", nc_file ))
 }
-system.time({parallelR::parallelize(object = combined_samples, ncores = 9, filter_nc)})
+lapply(combined_samples, filter_nc)
 
 # Get paths to NC contig files and name them
 nc_files = list.files("cgmap_files/", pattern = "nc_contigs")
