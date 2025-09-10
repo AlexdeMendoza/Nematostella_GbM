@@ -11,7 +11,7 @@ nvec_meth_rse = HDF5Array::loadHDF5SummarizedExperiment("nematostella_complete_m
 # Get GRanges with genes from Nematostella
 nvev_pc_genes_gr = readRDS("~/nematostella_project/nematostella_genome/nvec_pc_genes_gr.rds")
 
-# Get mean methylation for each gene. Took 30 seconds
+# Get mean methylation for each gene. 
 bpparam = BiocParallel::MulticoreParam(2)
 system.time({gene_meth = summarizeRegionMethylation(meth_rse = nvec_meth_rse, genomic_regions = nvev_pc_genes_gr, 
   genomic_region_names = names(nvev_pc_genes_gr), BPPARAM = bpparam)})

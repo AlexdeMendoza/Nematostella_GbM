@@ -60,7 +60,7 @@ complete_annotation_gr = readRDS("~/nematostella_project/nematostella_genome/rep
 # Split complete_annotation_gr into a GRangesList based on superclass of region
 complete_annotation_grl_superclass = split(complete_annotation_gr, complete_annotation_gr$superclass)
 
-# Test the difference in the overlap of slow and fast DMRs with region superclasses. Took 1 hour
+# Test the difference in the overlap of slow and fast DMRs with region superclasses. 
 set.seed(123)
 system.time({fast_vs_slow_dmr_proportions_superclass = foreach(region_name = names(complete_annotation_grl_superclass), .combine = rbind) %do% {
   
@@ -103,7 +103,7 @@ region_superclass_enrichment_barplot = customize_ggplot_theme(region_superclass_
 region_superclass_enrichment_barplot
 #ggsave(plot = region_superclass_enrichment_barplot, "plots/dmr_region_superclass_enrichment_barplot_permutation_test.pdf", width = 16, height = 9)
 
-### Find which classes of regions intragenic DMSO DMRs overlap. Took 10 minutes
+### Find which classes of regions intragenic DMSO DMRs overlap. 
 
 # Subset slow and fast DMRs for regions within the gene body
 gene_body_gr = complete_annotation_gr[complete_annotation_gr$superclass == "Gene Body"]
@@ -178,7 +178,7 @@ repeat_subfamily_to_family = sapply(split(repeat_annotation_gr$class, repeat_ann
 # Split complete_annotation_gr into a GRangesList based on subfamily of repeat
 repeat_annotation_grl_subfamily = split(repeat_annotation_gr , repeat_annotation_gr$subclass)
 
-# Test the difference in the overlap of slow and fast DMRs with repeat subfamilies. Took 7 hours with 10000 permutations and 10 cores
+# Test the difference in the overlap of slow and fast DMRs with repeat subfamilies. 
 set.seed(123)
 system.time({fast_vs_slow_dmr_repeat_subfamily_proportions = foreach(repeat_name = names(repeat_annotation_grl_subfamily), .combine = rbind) %do% {
   

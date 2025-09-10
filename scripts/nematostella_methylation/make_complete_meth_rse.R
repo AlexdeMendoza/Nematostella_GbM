@@ -72,28 +72,28 @@ system.time({chr_cpg_sites = extract_CPGs_modified("BSgenome.Nvectensis.NCBI.jaN
 nc_contigs = grep("NC", seqnames(BSgenome.Nvectensis.NCBI.jaNemVect1.1.lambda.pUC19), value = T)
 chr_contigs = grep("chr", seqnames(BSgenome.Nvectensis.NCBI.jaNemVect1.1.lambda.pUC19), value = T)
 
-# Create a methrix object for the NC contigs. Took 30 minutes
+# Create a methrix object for the NC contigs. 
 system.time({nc_contigs_methrix = read_bedgraphs(files = combined_files, 
     chr_idx = 1, start_idx = 3, beta_idx = 6, cov_idx = 8, contigs = nc_contigs, zero_based = F,
     stranded = TRUE, collapse_strands = T, ref_cpgs = nc_cpg_sites, coldata = sample_coldata, 
     h5 = T, h5_dir = "nc_contigs_methrix")})
 nc_contigs_methrix = methrix::load_HDF5_methrix("nc_contigs_methrix")
 
-# Create a methrix object for the chr contigs. Took 15 minutes 
+# Create a methrix object for the chr contigs. 
 system.time({chr_contigs_methrix = read_bedgraphs(files = combined_files, 
   chr_idx = 1, start_idx = 3, beta_idx = 6, cov_idx = 8, contigs = chr_contigs, zero_based = F,
   stranded = TRUE, collapse_strands = T, ref_cpgs = chr_cpg_sites, coldata = sample_coldata, 
   h5 = T, h5_dir = "chr_contigs_methrix")})
 chr_contigs_methrix = methrix::load_HDF5_methrix("chr_contigs_methrix")
 
-# Combine methrix objects and save. Took 2 minutes.
+# Combine methrix objects and save. 
 complete_methrix = c(nc_contigs_methrix, chr_contigs_methrix)
 system.time({save_HDF5_methrix(complete_methrix, dir = "nematostella_complete_methrix")})
 
-# Convert methrix to a BSSeq object. Took 1 minute to convert and 2 minutes to save
+# Convert methrix to a BSSeq object. 
 system.time({nematostella_complete_bsseq = methrix::methrix2bsseq(complete_methrix)})
 system.time({HDF5Array::saveHDF5SummarizedExperiment(nematostella_complete_bsseq, "nematostella_complete_bsseq")})
 
-# Convert methrix to a meth RSE object. Took 1 minute to convert and 2 minutes to save
+# Convert methrix to a meth RSE object. 
 system.time({nematostella_complete_meth_rse = methodical::methrixToRSE(complete_methrix)})
 system.time({HDF5Array::saveHDF5SummarizedExperiment(nematostella_complete_meth_rse, "nematostella_complete_meth_rse")})

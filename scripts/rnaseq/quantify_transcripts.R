@@ -44,7 +44,7 @@ gsk_reverse_fastqs = grep("r2", gsk_fastq_files, value = T)
 # Name files with their SRR accession 
 sample_names = gsub("_RNAseq", "", gsub("\\..*", "", basename(gsk_forward_fastqs)))
 
-# Quantify transcripts with Kallisto. Took 11 minutes
+# Quantify transcripts with Kallisto. 
 system.time(methodical::kallisto_quantify(path_to_kallisto = "~/programs/kallisto/kallisto", 
   kallisto_index = "../nematostella_genome/GCF__932526225.1_jaNemVect1.1_rna.kallisto.idx", 
   forward_fastqs = gsk_forward_fastqs, reverse_fastqs = gsk_reverse_fastqs, 
@@ -63,7 +63,7 @@ rnaseq_file_df = data.frame(filepaths = rnaseq_files, row.names = NULL)
 rnaseq_file_df$sample = basename(dirname(rnaseq_file_df$filepaths))
 rnaseq_file_df$file = gsub(".fq.gz", "", stringr::str_extract(rnaseq_file_df$filepaths, "\\d+\\.fq\\.gz"))
 
-# For each sample, combine the two forward and two reverse read files into single files for forward and reverse reads. Took 3 minutes
+# For each sample, combine the two forward and two reverse read files into single files for forward and reverse reads. 
 system.time(foreach(sample_name = unique(rnaseq_file_df$sample), .packages = "dplyr") %dopar% {
   
   sample_df = filter(rnaseq_file_df, sample == sample_name)
@@ -84,7 +84,7 @@ reverse_fastqs = grep("\\.r2", combined_fastq_files, value = T)
 # Name files with their SRR accession 
 sample_names = gsub("_RNAseq", "", gsub("\\..*", "", basename(forward_fastqs)))
 
-# Quantify transcripts with Kallisto. Took 8 minutes with 30 cores
+# Quantify transcripts with Kallisto. 
 system.time(methodical::kallisto_quantify(path_to_kallisto = "~/programs/kallisto/kallisto", 
   kallisto_index = "../nematostella_genome/GCF_932526225.1_jaNemVect1.1_rna_kallisto.idx", 
   forward_fastqs = forward_fastqs, reverse_fastqs = reverse_fastqs, 
@@ -112,7 +112,7 @@ sra_prefetch(path_to_sratk = "~/programs/sratoolkit.3.2.0-ubuntu64/bin",
   srr_accessions = PRJNA189768_metadata$run_accession, 
   output_directory = "PRJNA189768_srr_files", parallel_files = 12)
 
-# Extract FASTQ files from PRJNA189768_srr_files. Took 7 minutes
+# Extract FASTQ files from PRJNA189768_srr_files. 
 system.time(sra_fastq_dump(path_to_sratk = "~/programs/sratoolkit.3.2.0-ubuntu64/bin", 
   srr_directory_list = list.files("PRJNA189768_srr_files", full.names = T), output_directory = "PRJNA189768_fastq_files", 
   parallel_files = 12))
@@ -135,7 +135,7 @@ system.time(sra_prefetch(path_to_sratk = "~/programs/sratoolkit.3.2.0-ubuntu64/b
   srr_accessions = PRJNA418421_metadata$run_accession, 
   output_directory = "PRJNA418421_srr_files", parallel_files = 16))
 
-# # Extract FASTQ files from PRJNA418421_srr_files. Took 21 minutes
+# # Extract FASTQ files from PRJNA418421_srr_files. 
 system.time(sra_fastq_dump(path_to_sratk = "~/programs/sratoolkit.3.2.0-ubuntu64/bin", 
   srr_directory_list = list.files("PRJNA418421_srr_files", full.names = T), output_directory = "PRJNA418421_fastq_files", 
   parallel_files = 16))
@@ -158,7 +158,7 @@ fastq_files = c(list.files("PRJNA189768_fastq_files", full.names = T),
 # Name files with their SRR accession 
 names(fastq_files) = gsub(".fastq.gz", "", basename(fastq_files))
 
-# Quantify transcripts with Kallisto. Took 40 minutes
+# Quantify transcripts with Kallisto. 
 system.time(methodical::kallisto_quantify(path_to_kallisto = "~/programs/kallisto/kallisto", 
   kallisto_index = "../nematostella_genome/GCF__932526225.1_jaNemVect1.1_rna.kallisto.idx", 
   forward_fastqs = fastq_files, reverse_fastqs = NULL, 
@@ -216,7 +216,7 @@ data.table::fwrite(tibble::rownames_to_column(complete_transcript_counts, "trans
 # Load a list matching genes to transcripts
 genes_to_transcript_list = readRDS("../nematostella_genome/genes_to_transcript_list.rds")
 
-# Combine transcript counts for the same gene. Took 30 seconds
+# Combine transcript counts for the same gene. 
 system.time({nvec_complete_gene_counts_raw = methodical::sumTranscriptValuesForGenes(complete_transcript_counts, genes_to_transcript_list)})
 data.table::fwrite(tibble::rownames_to_column(nvec_complete_gene_counts_raw, "gene_id"), 
   "nvec_complete_gene_counts_raw.tsv.gz", sep = "\t")

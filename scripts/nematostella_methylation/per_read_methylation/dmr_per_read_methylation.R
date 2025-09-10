@@ -22,52 +22,52 @@ Nv_Cr5_3_4mpf_pedigree_haplotagged_modbam = "/data/SBCS-ademendoza/07-Lan/Nanopo
 # Get path to Nematostella genome FASTA
 nvec_fasta = "../../nematostella_genome/Nematostella_DToL_lambda_pUC_mitochondria_originalIDs.fasta"
 
-# Extract mod calls for DMRs from Nv_Cr5. Then find overlaps between mod calls and DMRs and indicate if mod calls are for fast or slow DMRs and save table. Took 7 minutes
+# Extract mod calls for DMRs from Nv_Cr5. Then find overlaps between mod calls and DMRs and indicate if mod calls are for fast or slow DMRs and save table. 
 system.time({Nv_Cr5_all_dmr_mod_calls = extract_mod_calls(modBAM = Nv_Cr5_modbam, genomic_regions = dmso_dmrs,
   nthreads = 12, reference_fasta = nvec_fasta, add_genomic_region_index = T)})
 Nv_Cr5_all_dmr_mod_calls$dmr_status = dmso_dmrs$dmr_status[Nv_Cr5_all_dmr_mod_calls$genomic_region_index]
 data.table::fwrite(Nv_Cr5_all_dmr_mod_calls, "Nv_Cr5_all_dmrs_mod_calls.tsv.gz", sep = "\t")
 
-# Extract mod calls for DMRs from Nv_Cr5_3_4mpf. Then find overlaps between mod calls and DMRs and indicate if mod calls are for fast or slow DMRs and save table. Took 7 minutes
+# Extract mod calls for DMRs from Nv_Cr5_3_4mpf. Then find overlaps between mod calls and DMRs and indicate if mod calls are for fast or slow DMRs and save table. 
 system.time({Nv_Cr5_3_4mpf_all_dmr_mod_calls = extract_mod_calls(modBAM = Nv_Cr5_3_4mpf_modbam, genomic_regions = dmso_dmrs,
   nthreads = 12, reference_fasta = nvec_fasta, add_genomic_region_index = T)})
 Nv_Cr5_3_4mpf_all_dmr_mod_calls$dmr_status = dmso_dmrs$dmr_status[Nv_Cr5_3_4mpf_all_dmr_mod_calls$genomic_region_index]
 data.table::fwrite(Nv_Cr5_3_4mpf_all_dmr_mod_calls, "Nv_Cr5_3_4mpf_all_dmrs_mod_calls.tsv.gz", sep = "\t")
 
-# Extract mod calls for DMRs from NvIT16K4_sperm_Oct31. Then find overlaps between mod calls and DMRs and indicate if mod calls are for fast or slow DMRs and save table. Took 7 minutes
+# Extract mod calls for DMRs from NvIT16K4_sperm_Oct31. Then find overlaps between mod calls and DMRs and indicate if mod calls are for fast or slow DMRs and save table. 
 system.time({NvIT16K4_sperm_Oct31_all_dmr_mod_calls = extract_mod_calls(modBAM = NvIT16K4_sperm_Oct31_modbam, genomic_regions = dmso_dmrs, 
   nthreads = 12, reference_fasta = nvec_fasta, add_genomic_region_index = T)})
 NvIT16K4_sperm_Oct31_all_dmr_mod_calls$dmr_status = dmso_dmrs$dmr_status[NvIT16K4_sperm_Oct31_all_dmr_mod_calls$genomic_region_index]
 data.table::fwrite(NvIT16K4_sperm_Oct31_all_dmr_mod_calls, "NvIT16K4_sperm_Oct31_all_dmrs_mod_calls.tsv.gz", sep = "\t")
 
-# Extract mod calls for DMRs from Nv_Cr18. Then find overlaps between mod calls and DMRs and indicate if mod calls are for fast or slow DMRs and save table. Took 5 minutes
+# Extract mod calls for DMRs from Nv_Cr18. Then find overlaps between mod calls and DMRs and indicate if mod calls are for fast or slow DMRs and save table. 
 system.time({Nv_Cr18_all_dmr_mod_calls = extract_mod_calls(modBAM = Nv_Cr18_modbam, genomic_regions = dmso_dmrs, 
   nthreads = 12, reference_fasta = nvec_fasta, add_genomic_region_index = T)})
 Nv_Cr18_all_dmr_mod_calls$dmr_status = dmso_dmrs$dmr_status[Nv_Cr18_all_dmr_mod_calls$genomic_region_index]
 data.table::fwrite(Nv_Cr18_all_dmr_mod_calls, "Nv_Cr18_all_dmrs_mod_calls.tsv.gz", sep = "\t")
 
-# Read table for Nv_Cr5 and filter for quality calls for all DMRs and summarize mod calls per read. Took 6 minutes
+# Read table for Nv_Cr5 and filter for quality calls for all DMRs and summarize mod calls per read. 
 system.time({Nv_Cr5_all_dmr_mod_calls = data.table::fread("Nv_Cr5_all_dmrs_mod_calls.tsv.gz")})
 system.time({Nv_Cr5_all_dmr_mod_calls = filter_modkit_calls(Nv_Cr5_all_dmr_mod_calls)})
 Nv_Cr5_all_dmr_mod_calls = dplyr::group_by(Nv_Cr5_all_dmr_mod_calls, dmr_status)
 system.time({Nv_Cr5_all_dmr_mod_calls_per_read = summarize_mod_calls_per_read(Nv_Cr5_all_dmr_mod_calls)})
 data.table::fwrite(Nv_Cr5_all_dmr_mod_calls_per_read, "Nv_Cr5_all_dmr_mod_calls_per_read.tsv.gz", sep = "\t")
 
-# Read table for Nv_Cr5_3_4mpf and filter for quality calls for all DMRs and summarize mod calls per read. Took 6 minutes
+# Read table for Nv_Cr5_3_4mpf and filter for quality calls for all DMRs and summarize mod calls per read. 
 system.time({Nv_Cr5_3_4mpf_all_dmr_mod_calls = data.table::fread("Nv_Cr5_3_4mpf_all_dmrs_mod_calls.tsv.gz")})
 system.time({Nv_Cr5_3_4mpf_all_dmr_mod_calls = filter_modkit_calls(Nv_Cr5_3_4mpf_all_dmr_mod_calls)})
 Nv_Cr5_3_4mpf_all_dmr_mod_calls = dplyr::group_by(Nv_Cr5_3_4mpf_all_dmr_mod_calls, dmr_status)
 system.time({Nv_Cr5_3_4mpf_all_dmr_mod_calls_per_read = summarize_mod_calls_per_read(Nv_Cr5_3_4mpf_all_dmr_mod_calls)})
 data.table::fwrite(Nv_Cr5_3_4mpf_all_dmr_mod_calls_per_read, "Nv_Cr5_3_4mpf_all_dmr_mod_calls_per_read.tsv.gz", sep = "\t")
 
-# Read table for NvIT16K4_sperm_Oct31 and filter for quality calls for all DMRs and summarize mod calls per read. Took 6 minutes
+# Read table for NvIT16K4_sperm_Oct31 and filter for quality calls for all DMRs and summarize mod calls per read. 
 system.time({NvIT16K4_sperm_Oct31_all_dmr_mod_calls = data.table::fread("NvIT16K4_sperm_Oct31_all_dmrs_mod_calls.tsv.gz")})
 system.time({NvIT16K4_sperm_Oct31_all_dmr_mod_calls = filter_modkit_calls(NvIT16K4_sperm_Oct31_all_dmr_mod_calls)})
 NvIT16K4_sperm_Oct31_all_dmr_mod_calls = dplyr::group_by(NvIT16K4_sperm_Oct31_all_dmr_mod_calls, dmr_status)
 system.time({NvIT16K4_sperm_Oct31_all_dmr_mod_calls_per_read = summarize_mod_calls_per_read(NvIT16K4_sperm_Oct31_all_dmr_mod_calls)})
 data.table::fwrite(NvIT16K4_sperm_Oct31_all_dmr_mod_calls_per_read, "NvIT16K4_sperm_Oct31_all_dmr_mod_calls_per_read.tsv.gz", sep = "\t")
 
-# Read table for Nv_Cr18 and filter for quality calls for all DMRs and summarize mod calls per read. Took 6 minutes
+# Read table for Nv_Cr18 and filter for quality calls for all DMRs and summarize mod calls per read. 
 system.time({Nv_Cr18_all_dmr_mod_calls = data.table::fread("Nv_Cr18_all_dmrs_mod_calls.tsv.gz")})
 system.time({Nv_Cr18_all_dmr_mod_calls = filter_modkit_calls(Nv_Cr18_all_dmr_mod_calls)})
 Nv_Cr18_all_dmr_mod_calls = dplyr::group_by(Nv_Cr18_all_dmr_mod_calls, dmr_status)
@@ -124,7 +124,7 @@ NvIT16K4_sperm_Oct31_per_read_dmr_meth_boxplots = customize_ggplot_theme(NvIT16K
   title = "Untreated Male X\nUntreated Female Gastrulas", plot_title_size = 18) 
 NvIT16K4_sperm_Oct31_per_read_dmr_meth_boxplots
 
-# Filter Nv_Cr5_3_4mpf_sorted_pedigree_haplotagged.bam for reads overlapping DMRs. Took 2 minutes.
+# Filter Nv_Cr5_3_4mpf_sorted_pedigree_haplotagged.bam for reads overlapping DMRs. 
 sbp = ScanBamParam(what = "qname", tag = c("PS", "HP"))
 system.time({dmso_dmr_read_haplotags = filter_bam_for_regions(Nv_Cr5_3_4mpf_pedigree_haplotagged_modbam, 
   genomic_regions = dmso_dmrs, param = sbp, nthreads = 20)})

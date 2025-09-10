@@ -75,7 +75,7 @@ fl_samples = grep("FL", colnames(nvec_population_bsseq), value = T)
 vienna_samples = grep("Vienna", colnames(nvec_population_bsseq), value = T)
 ma_samples = grep("MA", colnames(nvec_population_bsseq), value = T)
 
-# Find DMLs between FL and DMSO samples. Took 20 minutes with 1 core
+# Find DMLs between FL and DMSO samples. 
 system.time({fl_dmls = DMLtest(nvec_population_bsseq, smoothing = T,
   group1 = fl_samples, group2 = dmso_samples, ncores = 1)})
 fl_dmrs = callDMR(fl_dmls, delta = 0.5)
@@ -84,7 +84,7 @@ fl_dmrs = sort(fl_dmrs)
 names(fl_dmrs) = paste0("dmr_", seq_along(fl_dmrs))
 saveRDS(fl_dmrs, "fl_dmrs.rds")
 
-# Find DMLs between MA and DMSO samples. Took 20 minutes with 1 core
+# Find DMLs between MA and DMSO samples. 
 system.time({ma_dmls = DMLtest(nvec_population_bsseq, smoothing = T,
   group1 = ma_samples, group2 = dmso_samples, ncores = 1)})
 ma_dmrs = callDMR(ma_dmls, delta = 0.5)
@@ -93,7 +93,7 @@ ma_dmrs = sort(ma_dmrs)
 names(ma_dmrs) = paste0("dmr_", seq_along(ma_dmrs))
 saveRDS(ma_dmrs, "ma_dmrs.rds")
 
-# Find DMLs between Vienna and DMSO samples. Took 20 minutes with 1 core
+# Find DMLs between Vienna and DMSO samples. 
 system.time({vienna_dmls = DMLtest(nvec_population_bsseq, smoothing = T,
   group1 = vienna_samples, group2 = dmso_samples, ncores = 1)})
 vienna_dmrs = callDMR(vienna_dmls, delta = 0.5)
@@ -186,7 +186,7 @@ saveRDS(stable_and_variable_dmrs, "stable_and_variable_dmrs.rds")
 histone_bigwigs = list.files("../histone_marks/navarrete_bigwigs/", full.names = T)
 histone_marks = gsub(".log2r.input.bw", "", gsub(".*Nvec_", "", histone_bigwigs))
 
-# Summarize histone mark values for each DMR in dmr_gsk_vs_dmso_gr. Took 12 seconds
+# Summarize histone mark values for each DMR in dmr_gsk_vs_dmso_gr. 
 system.time({slow_dmr_histone_values = bigwig_summarize_over_regions(bw_filepaths = histone_bigwigs, 
   gr = stable_and_variable_dmrs, column_names = histone_marks, statistic = "mean0")})
 
@@ -226,7 +226,7 @@ bpparam = BiocParallel::SerialParam()
 
 nematostella_complete_meth_rse = HDF5Array::loadHDF5SummarizedExperiment("../nematostella_methylation/nematostella_complete_meth_rse")
 
-# Get mean methylation for unique_dmr_gsk_vs_dmso_gr in all samples. Took 10 seconds
+# Get mean methylation for unique_dmr_gsk_vs_dmso_gr in all samples. 
 system.time({population_dmrs_meth_timepoints = summarizeRegionMethylation(meth_rse = nematostella_complete_meth_rse, 
   genomic_regions = population_dmrs_reduced, BPPARAM = bpparam)})
 

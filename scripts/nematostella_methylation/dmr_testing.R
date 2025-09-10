@@ -21,7 +21,7 @@ gsk_f0_samples = c("GSK_rep1", "GSK_rep2", "GSK_rep3")
 gsk_sperm_F0_samples = c("NvIT17B14_sperm", "NvIT17B19_sperm", "NvIT17C6_sperm", "NvIT16K4_sperm_Oct31")
 gsk_f1_samples = c("Nv_Cr1", "Nv_Cr2")
 
-# Find DMLs between DMSO and GSK samples. Took 8 minutes with 4 cores.
+# Find DMLs between DMSO and GSK samples. 
 system.time({dmso_dmls = DMLtest(nematostella_complete_bsseq, smoothing = T,
   group1 = dmso_f0_samples, group2 = gsk_f0_samples, ncores = 1)})
 saveRDS(dmso_dmls, "dmso_dmls.rds")
@@ -42,7 +42,7 @@ rtracklayer::export.bed(dmso_dmrs, "dmso_dmrs.bed")
 # Load meth RSE object for Nematostella
 nematostella_complete_meth_rse = HDF5Array::loadHDF5SummarizedExperiment("nematostella_complete_meth_rse")
 
-# Get mean methylation for DMSO DMRs in all samples. Took 10 seconds
+# Get mean methylation for DMSO DMRs in all samples. 
 system.time({dmso_dmr_methylation = summarizeRegionMethylation(meth_rse = nematostella_complete_meth_rse, 
   genomic_regions = dmso_dmrs, BPPARAM = BiocParallel::SerialParam())})
 
@@ -183,7 +183,7 @@ ggsave(plot = timecourse_plot, "plots/dmr_meth_recovery_timecourse_plot.pdf", wi
 histone_bigwigs = list.files("../histone_marks/navarrete_bigwigs/", full.names = T)
 histone_marks = gsub(".log2r.input.bw", "", gsub(".*Nvec_", "", histone_bigwigs))
 
-# Summarize histone mark values for each DMR in dmr_gsk_vs_dmso_gr. Took 12 seconds
+# Summarize histone mark values for each DMR in dmr_gsk_vs_dmso_gr. 
 system.time({dmso_dmr_histone_values = bigwig_summarize_over_regions(bw_filepaths = histone_bigwigs, 
   gr = dmso_dmrs, column_names = histone_marks, statistic = "mean0")})
 

@@ -35,7 +35,7 @@ nematostella_complete_meth_rse = HDF5Array::loadHDF5SummarizedExperiment("../nem
 gsk_f0_samples = c("GSK_rep1", "GSK_rep2", "GSK_rep3")
 gsk_sperm_F0_samples = c("NvIT17B14_sperm", "NvIT17B19_sperm", "NvIT17C6_sperm", "NvIT16K4_sperm_Oct31")
 
-# Summarize histone mark values for each DMR in dmr_gsk_vs_dmso_gr. Took 20 seconds
+# Summarize histone mark values for each DMR in dmr_gsk_vs_dmso_gr. 
 system.time({gene_regions_histone_values = bigwig_summarize_over_regions(bw_filepaths = histone_bigwigs, 
   gr = gene_regions_gr_bins, column_names = histone_marks, statistic = "mean0")})
 
@@ -49,7 +49,7 @@ nvec_complete_transcript_counts_normalized = rowMeans(select(
 # Add activity of nearest TSS to each DMR
 gene_regions_histone_values$`TSS Activity` = nvec_complete_transcript_counts_normalized[names(tss_gr[nearest(gene_regions_gr_bins, tss_gr)])]
 
-# Get mean methylation for promoters, exons and introns in all samples. Took 10 seconds
+# Get mean methylation for promoters, exons and introns in all samples. 
 system.time({gene_regions_methylation = summarizeRegionMethylation(meth_rse = nematostella_complete_meth_rse, 
   genomic_regions = gene_regions_gr_bins, BPPARAM = BiocParallel::SerialParam())})
 
@@ -131,7 +131,7 @@ rf_variable_importance_plot
 
 ### Repeat for DMRs
 
-# Summarize histone mark values for each DMR in dmr_gsk_vs_dmso_gr. Took 20 seconds
+# Summarize histone mark values for each DMR in dmr_gsk_vs_dmso_gr. 
 system.time({dmr_histone_values = genomicTools::bigwig_summarize_over_regions(bw_filepaths = histone_bigwigs, 
   gr = dmr_gr, column_names = histone_marks, statistic = "mean0")})
 

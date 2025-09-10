@@ -62,7 +62,7 @@ Nv_Cr18_pileup_df = transmute(Nv_Cr18_pileup_df, seqnames = seqnames, nucleotide
 data.table::fwrite(Nv_Cr18_pileup_df, "cgmap_files/cgmap_files_nanopore/Nv_Cr18.CGmap.gz",
   sep = "\t", col.names = F, quote = F)
 
-# Create a GRanges with methylation pileup for for 3_mpf_15X (combined skimming samples). Took 9 minutes with 1 core
+# Create a GRanges with methylation pileup for for 3_mpf_15X (combined skimming samples). 
 system.time({three_mpf_15X_pileup_gr = pileup_modcalls(modBAM = "/data/SBCS-ademendoza/07-Lan/Nanopore/RBK_combined/GSK_F0_juvenile_combined/3mpf_15X_sorted.bam", 
   reference_fasta = "~/genomes/nematostella/Nematostella_DToL_lambda_pUC_mitochondria_originalIDs.fasta", motif = "CG", 
   ignore_mod = "h", combine_strands = F, nthreads = 1)})
@@ -75,7 +75,7 @@ three_mpf_15X_pileup_df = transmute(three_mpf_15X_pileup_df, seqnames = seqnames
 data.table::fwrite(three_mpf_15X_pileup_df, "cgmap_files/cgmap_files_nanopore/three_mpf_15X.CGmap.gz", 
   sep = "\t", col.names = F, quote = F)
 
-# Create a GRanges with methylation pileup for for 5_mpf_11X (combined skimming samples). Took 7 minutes
+# Create a GRanges with methylation pileup for for 5_mpf_11X (combined skimming samples). 
 system.time({five_mpf_11X_pileup_gr = pileup_modcalls(modBAM = "/data/SBCS-ademendoza/07-Lan/Nanopore/RBK_combined/GSK_F0_juvenile_combined/5mpf_11X_sorted.bam", 
   reference_fasta = "~/genomes/nematostella/Nematostella_DToL_lambda_pUC_mitochondria_originalIDs.fasta", motif = "CG", 
   ignore_mod = "h", combine_strands = F, nthreads = 1)})

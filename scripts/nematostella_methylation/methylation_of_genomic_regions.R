@@ -14,7 +14,7 @@ nematostella_complete_meth_rse_dmso_gsk =
 complete_annotation_gr = readRDS("~/genomes/nematostella/repeats/nvec_complete_annotation_gr.rds")
 complete_annotation_class_grl = split(complete_annotation_gr, complete_annotation_gr$class)
 
-# Calculate the mean methylation in DMSO samples for each class of region. Took 30 seconds
+# Calculate the mean methylation in DMSO samples for each class of region. 
 system.time({region_class_methylation_in_dmso_and_gsk_samples = lapply(complete_annotation_class_grl, function(x) 
   colMeans(assay(subsetByOverlaps(nematostella_complete_meth_rse_dmso_gsk, x)), na.rm = T))})
 
@@ -90,7 +90,7 @@ repeats_grl = split(repeats_gr, repeats_gr$subclass)
 # Make a list matching repeat subclasses to class
 repeat_subclass_to_class = lapply(split(repeats_gr$class, repeats_gr$subclass), function(x) unique(x)[1])
 
-# Calculate the mean methylation in DMSO and GSK samples for each subclass of repeat. Took 3 minutes
+# Calculate the mean methylation in DMSO and GSK samples for each subclass of repeat. 
 system.time({repeat_subclass_methylation_in_dmso_and_gsk_samples = lapply(repeats_grl, function(x) 
   colMeans(assay(subsetByOverlaps(nematostella_complete_meth_rse_dmso_gsk, x)), na.rm = T))})
 
