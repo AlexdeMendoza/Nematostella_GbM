@@ -14,5 +14,5 @@ The scripts used to analyse different aspects of the manuscript, written in R or
 
 Intermediate files obtained from the scripts, that are useful to reproduce the analysis. 
 
-The raw data for this manuscript can be downloaded from GEO (). 
+The raw data for this manuscript can be downloaded from GEO (GSE307384). 
 
