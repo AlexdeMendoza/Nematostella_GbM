@@ -38,6 +38,13 @@ To perform the analysis in this manuscript you can download the original softwar
 
 **modkit** —> https://github.com/nanoporetech/modkit
 
+## Alignment:
+
+**STAR** —> https://github.com/alexdobin/STAR
+
+**bowtie2** —> https://github.com/BenLangmead/bowtie2
+
+
 ## Methylation analysis:
 
 **bedGraphToBigWig** —> https://www.encodeproject.org/software/bedgraphtobigwig/
@@ -48,11 +55,17 @@ To perform the analysis in this manuscript you can download the original softwar
 
 **methylartist** —>https://github.com/adamewing/methylartist 
 
+**BS-Seeker2** —> https://github.com/BSSeeker/BSseeker2
+
+**CGmapTools** —> https://cgmaptools.github.io/
+
 ## ATAC-seq analysis:
 
 **chromap** —> https://github.com/haowenz/chromap 
 
 **MACS3** —> https://github.com/macs3-project/MACS 
+
+**TOBIAS** —> https://github.com/loosolab/TOBIAS
 
 ## RNA-seq analysis:
 
@@ -68,17 +81,46 @@ To perform the analysis in this manuscript you can download the original softwar
 
 **seqkit** —> https://github.com/annalam/seqkit
 
+**cutadapt** —> https://github.com/marcelm/cutadapt
+
+**Trim Galore** —> https://github.com/FelixKrueger/TrimGalore
+
+**BBtools** —> https://github.com/bbushnell/BBTools
+
+## Motif enrichment:
+
+**Homer2** —> http://homer.ucsd.edu/homer/homer2.html
+
 ## Repeats annotation:
 
 **RepeatModeler** —> https://github.com/Dfam-consortium/RepeatModeler
 
 **RepeatMasker** —> https://github.com/Dfam-consortium/RepeatMasker
 
+**Earl Grey** —> https://github.com/TobyBaril/EarlGrey
+
+## Genome browser:
+
+**BedGraph2BigWig** —> https://hgdownload.soe.ucsc.edu/admin/exe/
+
+**bigWigAverageOverBed** —> https://hgdownload.soe.ucsc.edu/admin/exe/
+
 ## Haplotype phasing:
 
 **Clair3** —> https://github.com/HKU-BAL/Clair3 
 
 **WhatsHap** —> https://github.com/whatshap/whatshap 
+
+## Auxiliary softwares: 
+**Sambamba** —> https://github.com/biod/sambamba
+
+**DeepTools2** —> https://github.com/deeptools/deepTools
+
+**BEDTOOLS** —> https://github.com/arq5x/bedtools2
+
+**SUBREAD** —> https://github.com/ShiLab-Bioinformatics/subread
+
+**bamCoverage** —> https://github.com/BGI-shenzhen/BamCoverage
 
 ## R packages:
 Biostrings=2.77.2
