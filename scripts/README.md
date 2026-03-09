@@ -120,3 +120,5 @@ HDF5Array=1.37.0
 bsseq=1.42.0
 
 topGO=2.58.0
+
+CAGEr=2.14.0
